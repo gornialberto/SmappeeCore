@@ -27,19 +27,12 @@ namespace TestSmappeeClient
 
             using (var scope = container.BeginLifetimeScope())
             {
-                //SmappeeCore.SmappeeExpertConfiguration conf = new SmappeeCore.SmappeeExpertConfiguration()
-                //{
-                //    SmappeLocalAddress = "2.238.201.154",
-                //    Port = 4888
-                //};
-
                 SmappeeCore.SmappeeExpertConfiguration conf = new SmappeeCore.SmappeeExpertConfiguration()
                 {
                     SmappeLocalAddress = "192.168.1.105",
                     Port = 80
                 };
-
-
+                
                 ILogger<SmappeeExpertClient> logger = scope.Resolve<ILogger<SmappeeExpertClient>>();
 
                 SmappeeCore.SmappeeExpertClient client = new SmappeeCore.SmappeeExpertClient(logger);
@@ -48,7 +41,7 @@ namespace TestSmappeeClient
 
                 var istantValue = client.GetInstantValue();
 
-                var xxx = client.GetReportValue();
+                var reportValue = client.GetReportValue();
             }
         }
     }

@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/gornialberto/SmappeeCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gornialberto/SmappeeCore</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Smappee EnergyMonitor</PackageTags>
+    <Description>SmappeeCore Enerty Monitor Expert mode API Client for .NET Core 2.0</Description>
+    <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
