@@ -10,6 +10,13 @@
     <PackageTags>Smappee EnergyMonitor</PackageTags>
     <Description>SmappeeCore Enerty Monitor Expert mode API Client for .NET Core 2.0</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <Version>1.0.3</Version>
+    <PackageReleaseNotes>Now the KEY is an Enumerator to simplify the utiization of the exported data
+Exported even Current,  Apparent Power  Reactive Power</PackageReleaseNotes>
+    <Authors>Alberto Gorni</Authors>
+    <Company>Gorni Productions</Company>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

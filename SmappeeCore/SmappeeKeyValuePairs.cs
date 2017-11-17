@@ -7,7 +7,7 @@ namespace SmappeeCore
     public class SmappeeKeyValuePairs
     {
         public string value { get; set; }
-        public string key { get; set; }
+        public SmappeeValueEnum key { get; set; }
 
         public override string ToString()
         {

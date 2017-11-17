@@ -9,7 +9,7 @@ namespace SmappeeCore
     /// <summary>
     /// Client for the local LAN API of the device
     /// </summary>
-    public class SmappeeExpertClient : ISmappeeCoreExpertClient
+    public class SmappeeExpertClient : ISmappeeExpertClient
     {
         private ILogger<SmappeeExpertClient> _logger;
 
@@ -183,9 +183,44 @@ namespace SmappeeCore
 
                     var voltage = instantDataResponseString.Substring(indexOfVoltage, indexOfEndVoltage - indexOfVoltage).Remove(0,8);
 
-                    instantValues.Add(new SmappeeKeyValuePairs() { key = "Voltage", value = voltage });
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.Voltage, value = voltage });
 
-                    ///TODO parsing other values
+            
+
+
+                    var indexCurrent = instantDataResponseString.IndexOf("current =");
+                    var indexCurrentEnd = instantDataResponseString.IndexOf(" A, activePower");
+
+                    var current = instantDataResponseString.Substring(indexCurrent, indexCurrentEnd - indexCurrent).Remove(0, 9);
+
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.Current, value = current });
+
+                    //reactivePower=187.861 var, apparentPower=418.024 VA, cosfi=89
+
+                    var indexActivePower = instantDataResponseString.IndexOf("activePower=");
+                    var indexActivePowerEnd = instantDataResponseString.IndexOf(" W, reactivePowe");
+
+                    var activePower = instantDataResponseString.Substring(indexActivePower, indexActivePowerEnd - indexActivePower).Remove(0, 12);
+
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ActivePower, value = activePower });
+
+
+                    var indexReactivePower = instantDataResponseString.IndexOf("reactivePower=");
+                    var indexReactivePowerEnd = instantDataResponseString.IndexOf(" var, apparentPower=");
+
+                    var reactivePower = instantDataResponseString.Substring(indexReactivePower, indexReactivePowerEnd - indexReactivePower).Remove(0, 14);
+
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ReactivePower, value = reactivePower });
+
+
+
+                    var indexApparentPower = instantDataResponseString.IndexOf("apparentPower=");
+                    var indexApparentPowerEnd = instantDataResponseString.IndexOf(", cosfi=");
+
+                    var apparentPower = instantDataResponseString.Substring(indexApparentPower, indexApparentPowerEnd - indexApparentPower).Remove(0, 14);
+
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ApparentPower, value = apparentPower });
+
 
 
                     var indexPeakPower = instantDataResponseString.IndexOf("peak active power");
@@ -193,13 +228,13 @@ namespace SmappeeCore
 
                     var peakPower = instantDataResponseString.Substring(indexPeakPower, indexPeakPowerEnd - indexPeakPower).Remove(0, 17);
 
-                    instantValues.Add(new SmappeeKeyValuePairs() { key = "PeakValue", value = peakPower });
+                    instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.PeakValue, value = peakPower });
 
                     var timePeakEnd = instantDataResponseString.IndexOf("<BR>active energy RMS");
 
                     var peakTime = instantDataResponseString.Substring(indexPeakPowerEnd, timePeakEnd - indexPeakPowerEnd).Remove(0, 6);
 
-                    instantValues.Add(new SmappeeKeyValuePairs() { key = "PeakTime", value = peakTime });
+                    instantValues.Add(new SmappeeKeyValuePairs() { key =  SmappeeValueEnum.PeakTime, value = peakTime });
                 }
                 catch (Exception ex)
                 {

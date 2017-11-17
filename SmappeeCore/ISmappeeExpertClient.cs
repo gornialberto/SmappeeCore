@@ -7,7 +7,7 @@ namespace SmappeeCore
     /// <summary>
     /// Smappee Core Expert Client Interface
     /// </summary>
-    public interface ISmappeeCoreExpertClient
+    public interface ISmappeeExpertClient
     {
         bool Login(SmappeeExpertConfiguration configuration);
 
