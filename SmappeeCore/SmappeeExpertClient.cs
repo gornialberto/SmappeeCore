@@ -86,6 +86,7 @@ namespace SmappeeCore
             if (!_loggedIn)
             {
                 _logger.LogError("Please Login first!");
+                return null;
             }
             
             List<SmappeeKeyValuePairs> instantValues = null;
@@ -153,6 +154,7 @@ namespace SmappeeCore
             if (!_loggedIn)
             {
                 _logger.LogError("Please Login first!");
+                return null;
             }
 
             List<SmappeeKeyValuePairs> instantValues = new List<SmappeeKeyValuePairs>();
@@ -173,7 +175,16 @@ namespace SmappeeCore
 
                 _logger.LogInformation(string.Format("Deserializing HTML STUFF:\n{0}", instantDataResponseString));
 
-                //{ "report":"Instantaneous values:<BR>voltage=225.6 Vrms<BR>FFTComponents:<BR>Phase 1:<BR>\tcurrent=1.852 A, activePower=373.433 W, reactivePower=187.861 var, apparentPower=418.024 VA, cosfi=89, quadrant=0, phaseshift=0.0, phaseDiff=0.0<BR>\tFFTComponents:<BR><BR><BR>Phase 1, peak active power 4619.538 W at 14/11/2017 08:28:20<BR>active energy RMS per phase mapping combination<BR>phase mapping -1=0.0 kWh [* 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR><BR>active energy RMS (solar) per phase mapping combination<BR>phase mapping -1=0.0 kWh [* 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR><BR>"}
+                //{ "report":"Instantaneous values:<BR>voltage=225.6 Vrms<BR>FFTComponents:<BR>Phase 1:<BR>\tcurrent=1.852 A,
+                //activePower =373.433 W, reactivePower=187.861 var, apparentPower=418.024 VA, cosfi=89, quadrant=0,
+                //phaseshift =0.0, phaseDiff=0.0<BR>\tFFTComponents:<BR><BR>
+                //<BR>Phase 1, peak active power 4619.538 W at 14/11/2017 08:28:20
+                //<BR>active energy RMS per phase mapping combination<BR>phase mapping -1=0.0 kWh [* 1/0]
+                //<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]
+                //<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]
+                //<BR>phase mapping -1=0.0 kWh [ 1/0]<BR><BR>active energy RMS (solar) per phase mapping combination
+                //<BR>phase mapping -1=0.0 kWh [* 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]
+                //<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR>phase mapping -1=0.0 kWh [ 1/0]<BR><BR>"}
 
                 try
                 {
@@ -184,40 +195,33 @@ namespace SmappeeCore
                     var voltage = instantDataResponseString.Substring(indexOfVoltage, indexOfEndVoltage - indexOfVoltage).Remove(0,8);
 
                     instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.Voltage, value = voltage });
-
-            
-
+                    
 
                     var indexCurrent = instantDataResponseString.IndexOf("current =");
-                    var indexCurrentEnd = instantDataResponseString.IndexOf(" A, activePower");
+                    var indexCurrentEnd = instantDataResponseString.IndexOf(" A, activePower=");
 
                     var current = instantDataResponseString.Substring(indexCurrent, indexCurrentEnd - indexCurrent).Remove(0, 9);
 
                     instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.Current, value = current });
 
-                    //reactivePower=187.861 var, apparentPower=418.024 VA, cosfi=89
-
-                    var indexActivePower = instantDataResponseString.IndexOf("activePower=");
+      
                     var indexActivePowerEnd = instantDataResponseString.IndexOf(" W, reactivePowe");
 
-                    var activePower = instantDataResponseString.Substring(indexActivePower, indexActivePowerEnd - indexActivePower).Remove(0, 12);
+                    var activePower = instantDataResponseString.Substring(indexCurrentEnd, indexActivePowerEnd - indexCurrentEnd).Remove(0, 16);
 
                     instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ActivePower, value = activePower });
 
 
-                    var indexReactivePower = instantDataResponseString.IndexOf("reactivePower=");
                     var indexReactivePowerEnd = instantDataResponseString.IndexOf(" var, apparentPower=");
 
-                    var reactivePower = instantDataResponseString.Substring(indexReactivePower, indexReactivePowerEnd - indexReactivePower).Remove(0, 14);
+                    var reactivePower = instantDataResponseString.Substring(indexActivePowerEnd, indexReactivePowerEnd - indexActivePowerEnd).Remove(0, 16);
 
                     instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ReactivePower, value = reactivePower });
 
 
-
-                    var indexApparentPower = instantDataResponseString.IndexOf("apparentPower=");
                     var indexApparentPowerEnd = instantDataResponseString.IndexOf(", cosfi=");
 
-                    var apparentPower = instantDataResponseString.Substring(indexApparentPower, indexApparentPowerEnd - indexApparentPower).Remove(0, 14);
+                    var apparentPower = instantDataResponseString.Substring(indexReactivePowerEnd, indexApparentPowerEnd - indexReactivePowerEnd).Remove(0, 20);
 
                     instantValues.Add(new SmappeeKeyValuePairs() { key = SmappeeValueEnum.ApparentPower, value = apparentPower });
 
@@ -267,6 +271,7 @@ namespace SmappeeCore
             if (!_loggedIn)
             {
                 _logger.LogError("Please Login first!");
+                return null;
             }
 
             List<SmappeeKeyValuePairs> instantValues = new List<SmappeeKeyValuePairs>();
